@@ -1,3 +1,0 @@
-php artisan serve => to start project
----------------------
-php artisan make:controller DashboardController  to make controller
