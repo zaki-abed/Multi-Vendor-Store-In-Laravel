@@ -3,6 +3,7 @@
 @section('title', 'Starter Page')
 
 @section('breadcrumb')
+@parent
 <li class="breadcrumb-item active">Starter Page</li>
 @endsection
 
@@ -65,3 +66,14 @@
         <!-- /.col-md-6 -->
     </div>
 @endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('dist/css/style1.css') }}">
+@endpush
+@push('styles')
+<link rel="stylesheet" href="{{ asset('dist/css/style2.css') }}">
+@endpush
+
+@push('script')
+<script src="{{ asset('dist/js/js1.js') }}"></script>
+@endpush

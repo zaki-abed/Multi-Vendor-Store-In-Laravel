@@ -1,3 +1,8 @@
-php artisan serve => to start project
+php artisan serve
 ---------------------
-php artisan make:controller DashboardController  to make controller
+php artisan make:controller DashboardController
+---------------------
+migration:
+php artisan make:migration create_stores_table
+php artisan make:migrate
+php artisan migrate:rollback
