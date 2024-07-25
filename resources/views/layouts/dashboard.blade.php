@@ -185,7 +185,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Zaki Abed</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                        {{-- <a href="{{ route('logout') }}">Logout</a> --}}
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-success">Logout</button>
+                        </form>
                     </div>
                 </div>
 
