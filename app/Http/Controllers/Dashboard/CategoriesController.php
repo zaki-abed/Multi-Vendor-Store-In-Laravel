@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Exception;
+use Illuminate\Support\Facades\Redirect;
+
 class CategoriesController extends Controller
 {
     /**
@@ -93,7 +96,31 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        // make exception
+        try {
+            $category = Category::findOrFail($id);
+        } catch (Exception $e) {
+            return redirect()->route('categories.index')
+            ->with('warning', 'Recoed not found!');
+        }
+        // $category = Category::find($id);
+        // $category = Category::findOrFail($id);
+        // if(!$category) {
+        //     abort(404); => return page Not Found 404
+        // }
+
+        // select * from categories where id <> $id
+        // AND (parent_id OS NULL OR parent_id <> $id)
+        $parents = Category::where('id', '<>', $id)
+                    ->where(function($query) use ($id) {
+                        $query->whereNull('parent_id')
+                        ->orWhere('parent_id', '<>', $id);
+                    })
+                    // ->dd();
+                    ->get();
+        // dd($parents);
+        // dd($category);
+        return view('dashboard.categories.edit', compact('category', 'parents'));
     }
 
     /**
@@ -105,7 +132,12 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        // dd($category);
+        $category->update($request->all());
+        return redirect()->route('categories.index')
+                ->with('msgSucUpdateCate', 'Category Updated!');
     }
 
     /**
@@ -116,6 +148,18 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //1
+        Category::destroy($id);
+
+        // // 2
+        // $category = Category::findOrFail($id);
+        // $category->delete();
+
+        // // 3
+        // Category::where('id', '=', $id)->delete();
+        // Category::delete(); Delete All Recourd
+
+        return Redirect::route('categories.index')
+        ->with('msgSucDeleCate', 'Category Deleted!');
     }
 }
