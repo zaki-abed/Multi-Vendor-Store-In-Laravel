@@ -45,7 +45,7 @@
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->parent_id }}</td>
                     <td>{{ $category->created_at }}</td>
-                    <td>{{ $category->image }}</td>
+                    <td> <img src="{{ asset( 'storage/' . $category->image) }}" alt="Image" width="40"> <br> {{ $category->image }}</td>
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('categories.edit', $category->id ) }}" class="btn btn-outline-primary mr-2">Edit</a>
