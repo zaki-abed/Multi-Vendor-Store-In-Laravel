@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\CategoryRequest; // Import the CategoryRequest class
 
 class CategoriesController extends Controller
 {
@@ -44,6 +45,14 @@ class CategoriesController extends Controller
      */
     public function store(Request $request)
     {
+
+        // validation
+        $request_validate_data = $request->validate(Category::rules(), [
+            'name.required' => 'This Filed required',
+            'required' => 'This :attribute is required'
+        ]);
+
+        // dd($request_validate_data);
         // // Singel Data
         // $request->input('name');
         // $request->post('name');
@@ -137,15 +146,23 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
+
+        // validation
+        // $request->validate(Category::rules($id));
+        // dd($request);
         $category = Category::findOrFail($id);
         $oldImage = $category->image;
         $dataRequest = $request->except('image');
+        $new_image = $this->uploadImage($request);
 
-        $dataRequest['image'] = $this->uploadImage($request);
+        if($new_image)
+        {
+            $dataRequest['image'] = $new_image;
+        }
 
-        if($oldImage && $dataRequest['image']) {
+        if($oldImage && $new_image) {
             Storage::disk('public')->delete($oldImage);
         }
 

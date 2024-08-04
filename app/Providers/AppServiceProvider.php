@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Support\Facades\Validator; // Import the Validator facade
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+
+        Validator::extend('filter', function($attribute, $value, $params) {
+            return ! in_array(strtolower($value), $params);
+        }, 'This By Filter');
     }
+
+
 }
