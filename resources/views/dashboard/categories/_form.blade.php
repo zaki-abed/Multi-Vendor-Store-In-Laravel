@@ -8,12 +8,8 @@
 @endif
 {{-- Form --}}
 <div class="form-group">
-    <label for="name">Name</label>
-    <input name="name" type="text" id="name" placeholder="Enter Name" value="{{ old('name', $category->name) }}"
-        class="form-control @error('name') is-invalid @enderror">
-    @error('name')
-        <p class="invalid-feedback">{{ $message }}</p>
-    @enderror
+    {{-- Componet: input --}}
+    <x-form.input type="text" class="form-control form-control-lg" data-id="zaki" id="Category_Name" label="Category Name" name="name" value="{{ $category->name }}" />
 </div>
 
 <div class="form-group">
@@ -27,27 +23,30 @@
 </div>
 
 <div class="form-group">
-    <label for="desc">Description</label>
-    <textarea class="form-control" id="desc" rows="3" name="description" placeholder="Description">{{ $category->description }}</textarea>
+    <x-form.label for="desc">Description</x-form.label>
+    <x-form.textarea id="desc" name="description" :value="$category->description" />
 </div>
 
 <div class="form-group">
-    <label for="image">Image</label>
-    <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+    <x-form.label for="image">Image</x-form.label>
+    <x-form.input type="file" class="form-control-file" id="image" label="Category Name" name="image" accept="image/*" />
+
 </div>
 @if ($category->image)
     <img src="{{ asset('storage/' . $category->image) }}" alt="">
 @endif
-<div class="form-check">
+{{-- <div class="form-check">
     <input class="form-check-input" type="radio" name="status" id="status1" value="active"
         @checked(old('status', $category->status)== 'active')>
     <label class="form-check-label" for="status1">Active</label>
-</div>
-<div class="form-check">
+</div> --}}
+
+    <x-form.radio name="status" :checked="$category->status" :options="['active' => 'Active', 'archived' => 'Archived']"/>
+{{-- <div class="form-check">
     <input class="form-check-input" type="radio" name="status" id="status2" value="archived"
         @checked(old('status', $category->status) == 'archived')>
     <label class="form-check-label" for="status2">Archived</label>
-</div>
+</div> --}}
 
 <button type="submit" class="btn btn-primary">{{ $buttonLable ?? 'Save' }}</button>
 {{-- / Form --}}

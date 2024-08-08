@@ -10,18 +10,8 @@
 @section('content')
     <div class="row">
         <div class="col-6">
-            @if(session()->has('msgSucAddCate'))
-                <div class="alert alert-success" role="alert">{{ session('msgSucAddCate') }}</div>
-            @endif
-            @if(session()->has('msgSucUpdateCate'))
-                <div class="alert alert-success" role="alert">{{ session('msgSucUpdateCate') }}</div>
-            @endif
-            @if(session()->has('warning'))
-                <div class="alert alert-warning" role="alert">{{ session('warning') }}</div>
-            @endif
-            @if(session()->has('msgSucDeleCate'))
-                <div class="alert alert-success" role="alert">{{ session('msgSucDeleCate') }}</div>
-            @endif
+            {{-- Component Fot Alert --}}
+            <x-alert />
         </div>
     </div>
     <div class="row">
