@@ -17,12 +17,13 @@
 <input
     name="{{ $name }}"
     type="{{ $type ?? 'text' }}"
-    id="{{ $id }}"
+    id="{{ $id ?? '' }}"
     placeholder="Enter {{ $name }}"
     value="{{ old('$name', $value) }}"
     {{-- class="@error('name') is-invalid @enderror" --}}
     {{-- {{ $attributes }} --}}
     {{ $attributes->class([
+        'form-control',
         'is-invalid' => $errors->has($name),
     ]) }}
 >

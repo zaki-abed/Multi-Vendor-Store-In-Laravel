@@ -14,6 +14,19 @@
             <x-alert />
         </div>
     </div>
+    {{-- search --}}
+    <div class="col">
+        <form action="{{ URL::current() }}" method="get" class="d-flex justify-content-between align-items-center mb-4" style="gap: 10px">
+
+            <x-form.input name="name" id="name" label="" :value="request('name')" />
+            <select class="form-control" id="status" name="status">
+                <option value="">All</option>
+                <option value="active" @selected(request('status') == 'active')>Active</option>
+                <option value="archived" @selected(request('status') == 'archived')>Archived</option>
+            </select>
+            <button class="btn btn-primary">Search</button>
+        </form>
+    </div>
     <div class="row">
         <a href="{{ route('categories.create') }}" class="btn btn-primary mb-4">Create</a>
         {{-- Table Shows --}}
@@ -25,6 +38,7 @@
                     <th>Parent</th>
                     <th>Created At</th>
                     <th>Image</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -36,6 +50,7 @@
                     <td>{{ $category->parent_id }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td> <img src="{{ asset( 'storage/' . $category->image) }}" alt="Image" width="40"> <br> {{ $category->image }}</td>
+                    <td>{{ $category->status }}</td>
                     <td>
                         <div class="d-flex">
                             <a href="{{ route('categories.edit', $category->id ) }}" class="btn btn-outline-primary mr-2">Edit</a>
@@ -55,6 +70,12 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        {{-- {{ $categories->links() }} --}}
+        {{-- {{ $categories->withQueryString()->appends(['age' => 12, 'sort' => 'name'])->links() }} --}}
+        {{ $categories->withQueryString()->links() }}
+        {{-- {{ $categories->withQueryString()->links('layouts.pagination.custom') }} --}}
     </div>
 @endsection
 

@@ -18,10 +18,25 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all(); // Return Collection Object not Array
-        // dd($categories);
+        $query = Category::query();
+
+        if($name = $request->query('name'))
+        {
+            $query->where('name', 'LIKE', "%{$name}%");
+        }
+
+        if($status = $request->query('status'))
+        {
+            // $query->where('status', '=', "$status");
+            $query->where('status', "$status");
+            // $query->whereStatus($status);
+
+        }
+
+        $categories = $query->paginate(1);
+        // $categories = $query->dd();
         return view('dashboard.categories.index', compact('categories'));
     }
 
