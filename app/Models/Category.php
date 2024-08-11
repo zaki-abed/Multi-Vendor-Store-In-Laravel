@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Rules\FilterCategory;
+use Illuminate\Database\Eloquent\Builder;
+
 class Category extends Model
 {
     use HasFactory;
@@ -42,4 +44,35 @@ class Category extends Model
         ];
     }
 
+    public function scopeActive(Builder $builder)
+    {
+        $builder->where('status', '=', 'active');
+    }
+
+    public function scopeStatus(Builder $builder, $status)
+    {
+        $builder->where('status', '=', $status);
+    }
+
+    public function scopeFilter(Builder $builder, $filter)
+    {
+        // if($filter['name'] ?? false)
+        // {
+        //     $builder->where('name', 'LIKE', $filter['name']);
+        // }
+
+        // if($filter['status'] ?? false)
+        // {
+        //     $builder->where('status', '=', $filter['status']);
+        // }
+
+        // Clean Code
+        $builder->when($filter['name'], function($builder, $value) {
+            $builder->where('categories.name', 'LIKE', "%{$value}%");
+        });
+
+        $builder->when($filter['status'], function($builder, $value){
+            $builder->where('categories.status', '=', $value);
+        });
+    }
 }

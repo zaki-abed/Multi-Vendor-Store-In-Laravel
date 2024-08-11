@@ -20,22 +20,21 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Category::query();
+        // $query = Category::query();
+        // dd($request->query());
+        // $categories = $query->active()->paginate(5);
+        // $categories = Category::active()->status('active')->paginate(5);
+        // $categories = Category::status('active')->paginate(5);
 
-        if($name = $request->query('name'))
-        {
-            $query->where('name', 'LIKE', "%{$name}%");
-        }
+        $categories = Category::leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
+        ->select([
+            'categories.*',
+            'parents.name as parent_name'
+        ])
+        ->filter($request->query())
+        ->orderBy('categories.name')
+        ->paginate(5);
 
-        if($status = $request->query('status'))
-        {
-            // $query->where('status', '=', "$status");
-            $query->where('status', "$status");
-            // $query->whereStatus($status);
-
-        }
-
-        $categories = $query->paginate(1);
         // $categories = $query->dd();
         return view('dashboard.categories.index', compact('categories'));
     }

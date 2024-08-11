@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
-                    <td>{{ $category->parent_id }}</td>
+                    <td>{{ $category->parent_name }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td> <img src="{{ asset( 'storage/' . $category->image) }}" alt="Image" width="40"> <br> {{ $category->image }}</td>
                     <td>{{ $category->status }}</td>
